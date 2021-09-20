@@ -20,7 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-56j+w&tkxa+k$@x$!$zrihmf-6i$gziyo4es!^xo6o6&=3ak7e'
+#SECRET_KEY = 'django-insecure-56j+w&tkxa+k$@x$!$zrihmf-6i$gziyo4es!^xo6o6&=3ak7e'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-56j+w&tkxa+k$@x$!$zrihmf-6i$gziyo4es!^xo6o6&=3ak7e')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -152,4 +153,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 import dj_database_url
 db_from_env = dj_database_url.config()
-DATABASE['default'].update(db_from_env)
+DATABASES['default'].update(db_from_env)
