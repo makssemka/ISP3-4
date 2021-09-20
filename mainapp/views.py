@@ -200,8 +200,8 @@ class RegistrationView(View):
             user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
             login(request, user)
             return HttpResponseRedirect('/')
-        context = {'form': form}
-        return render(request, 'registration.html', context)
+        context = {'form': form, 'cart': self.cart}
+        return render(request, 'mainapp/registration.html', context)
 
 
 class ProfileView(View):
