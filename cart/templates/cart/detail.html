@@ -1,0 +1,57 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+{% block title %}
+    Your shopping cart
+{% endblock %}
+{% block content %}
+    <h3 class="text-center mt-5 mb-5">Ваша корзина{% if not cart %} пуста {% endif %}</h3>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{ message }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+    {% endif %}
+{% if cart %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Товар</th>
+            <th>Количество</th>
+            <th>Стоимость</th>
+            <th>Итоговая цена</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in cart %}
+            {% with product=item.product %}
+                <tr>
+                    <td>
+                        <img src="{{ product.image.url }}" width="400" height="500">
+                    </td>
+                    <td>{{ product.title }}
+                        <a href="{% url 'cart:cart_remove' product.slug%}">Удалить</a>
+                    </td>
+                    <td>{{ item.quantity }}</td>
+                    <td class="num">{{ item.price }}BYN</td>
+                    <td class="num">{{ item.total_price }}BYN</td>
+                </tr>
+            {% endwith %}
+        {% endfor %}
+        <tr class="total">
+            <td>Итого я гей:</td>
+            <td colspan="4"></td>
+            <td class="num">{{ cart.get_total_price }}BYN</td>
+        </tr>
+        </tbody>
+    </table>
+    <p class="text-right">
+        <a href="{% url 'mainapp:base' %}" class="button light">Продолжить покупки</a>
+        <a href="{% url 'orders:order_create' %}" class="button">
+              Оформить заказ
+        </a>
+    </p>
+{% endif %}
+{% endblock %}

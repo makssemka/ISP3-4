@@ -1,0 +1,125 @@
+.<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Shop Homepage - Start Bootstrap Template</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="{% url 'mainapp:base' %}">PSPROKAT</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'mainapp:base' %}">Home</a></li>
+                        <li class="nav-item dropdown">
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                {% for service in services %}
+                                <li><a class="dropdown-item" href="{{ service.get_absolute_url }}">{{ service.name }}</a></li>
+                                {% endfor %} service.get_absolute_url
+                            </ul>
+                        </li>
+                    {% if not request.user.is_authenticated %}
+                        <li>
+                            <a class="nav-link text-dark" href="{% url 'mainapp:login' %}">Авторизация</a>
+                        </li>
+                        <li>
+                            <a class="nav-link text-dark" href="{% url 'mainapp:registration' %}">Регистрация</a>
+                        </li>
+                    {% endif %}
+                        <li class="nav-item">
+                            {% if request.user.is_authenticated %}<span class="navbar text-dark">Здравствуйте, <span class="badge badge-danger">
+                                <a style="text-decoration: none; font-size:14px; color:black;" href="{% url 'mainapp:profile' %}">{{ request.user.username }}</a></span> | <a href="{% url 'mainapp:logout' %}" style="color:black; text-decoration:none;">Выйти</a></span>{% endif %}
+                        </li>
+                    </ul>
+
+                    <form class="d-flex" >
+                        <button class="btn btn-outline-dark" type="submit">
+                            <i class="bi-cart-fill me-1"></i>
+                            <a href="{% url 'cart:cart_detail' %}">Корзина
+                                <div class="cart">
+                                    {% with total_items=cart|length %}
+                                    {% if cart|length > 0 %}
+                                    <a href="{% url 'cart:cart_detail' %}">
+                                    {{ total_items }} item{{ total_items|pluralize }},
+                                    {{ cart.get_total_price }}BYN
+                                    </a>
+                                    {% endif %}
+                                    {% endwith %}
+                                </div>
+                            </a>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Shop in style</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+                </div>
+            </div>
+        </header>
+        <!-- Section-->
+        <section class="py-5">
+            {% block content %}
+            {% if messages %}
+                {% for message in messages %}
+                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                      <strong>{{ message }}</strong>
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+            {% endif %}
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    {% for product in products %}
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <a href='{{ product.get_absolute_url }}'><img class="card-img-top" src="{{ product.image.url }}" alt="" /></a>
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">
+                                        <a>{{ product.title }}</a>
+                                    </h5>
+                                    <!-- Product price-->
+                                    <h6>{{ product.price }} руб.</h6>
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{ product.get_absolute_url }}">View options</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endblock content %}
+        </section>
+        <!-- Footer-->
+        <footer class="py-5 bg-dark">
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2021</p></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
