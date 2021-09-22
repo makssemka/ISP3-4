@@ -1,4 +1,5 @@
 from django.urls import path
+from django.urls import include
 from django.contrib.auth.views import LogoutView
 from .views import (
     BaseView,
@@ -10,8 +11,8 @@ from .views import (
     ChangeQTYView,
     CheckoutView,
     MakeOrderView,
-    LoginView,
-    RegistrationView,
+    #LoginView,
+    #RegistrationView,
     ProfileView,
     product_detail
 )
@@ -27,8 +28,9 @@ urlpatterns = [
     path('change-qty/<str:slug>/', ChangeQTYView.as_view(), name='change_qty'),
     path('checkout/', CheckoutView.as_view(), name='checkout'),
     path('make-order/', MakeOrderView.as_view(), name='make_order'),
-    path('login/', LoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
-    path('registration/', RegistrationView.as_view(), name='registration'),
-    path('profile/', ProfileView.as_view(), name='profile')
+    #path('login/', LoginView.as_view(), name='login'),
+    #path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
+    #path('registration/', RegistrationView.as_view(), name='registration'),
+    #path('profile/', ProfileView.as_view(), name='profile')
+    path('accounts/', include('django.contrib.auth.urls'))
 ]

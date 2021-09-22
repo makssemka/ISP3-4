@@ -1,4 +1,4 @@
-.<!DOCTYPE html>
+{% load static %}
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -12,64 +12,52 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+            <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"></script>
+        <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+        <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+
     </head>
     <body>
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="{% url 'mainapp:base' %}">PlayPROKAT</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'mainapp:base' %}">Главная</a></li>
-                        <li class="nav-item dropdown">
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                {% for service in services %}
-                                <li><a class="dropdown-item" href="{{ service.get_absolute_url }}">{{ service.name }}</a></li>
-                                {% endfor %} service.get_absolute_url
-                            </ul>
-                        </li>
-                    {% if not request.user.is_authenticated %}
-                        <li>
-                            <a class="nav-link text-dark" href="{% url 'mainapp:login' %}">Авторизация</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-dark" href="{% url 'mainapp:registration' %}">Регистрация</a>
-                        </li>
-                    {% endif %}
-                        <li class="nav-item">
-                            {% if request.user.is_authenticated %}<span class="navbar text-dark">Здравствуйте, <span class="badge badge-danger">
-                                <a style="text-decoration: none; font-size:14px; color:black;" href="{% url 'mainapp:profile' %}">{{ request.user.username }}</a></span> | <a href="{% url 'mainapp:logout' %}" style="color:black; text-decoration:none;">Выйти</a></span>{% endif %}
-                        </li>
-                    </ul>
-
-                    <form class="d-flex" >
-                        <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            <a href="{% url 'cart:cart_detail' %}">Корзина
-                                <div class="cart">
-                                    {% with total_items=cart|length %}
-                                    {% if cart|length > 0 %}
-                                    <a href="{% url 'cart:cart_detail' %}">
-                                    {{ total_items }} item{{ total_items|pluralize }},
-                                    {{ cart.get_total_price }}BYN
-                                    </a>
-                                    {% endif %}
-                                    {% endwith %}
-                                </div>
-                            </a>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </nav>
+<nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark " data-sidebarClass="navbar-dark bg-dark">
+    <a class="navbar-brand" href="#" style="margin-left: 15px">
+        PLAYProkat
+    </a>
+    {% if request.user.is_authenticated %}
+    <ul class="nav navbar-nav ms-auto" style="margin-right: 135px">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+                Welcome, {{ request.user.username }}
+            </a>
+            <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'authentication:logout' %}">Logout</a>
+            <a class="dropdown-item" href="{% url 'authentication:change_password' %}">Change Password</a>
+        </li>
+    </ul>
+    {% else %}
+    <ul class="navbar-nav ms-auto" style="margin-right: 15px">
+        <li class="nav-item {% if request.resolver_match.url_name == 'authentication:login' %} active {% endif %}">
+            <a class="nav-link" href="{% url 'authentication:login' %}">Login</a>
+        </li>
+        <li class="nav-item {% if request.resolver_match.url_name == 'signup' %} active {% endif %}">
+            <a class="nav-link" href="{% url 'authentication:signup' %}">Sign Up</a>
+        </li>
+    </ul>
+    {% endif %}
+</nav>
         <!-- Header-->
         <header class="bg-dark py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">PlayPROKAT</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">У нас ты без проблем сможешь ненадолго угнать консоль и аксессуары к ней! Никаких скоростных ограничений и препятствий!
-                        Просто бери и гони по виртуальному миру на всей скорости!</p>
+                    <h1 class="display-4 fw-bolder">PLAYProkat</h1>
+                    <p class="lead fw-normal text-black-50 mb-0">У нас ты без проблем сможешь ненадолго угнать консоль и аксессуары к ней! Никаких скоростных ограничений и препятствий! Просто бери и гони по виртуальному миру на всей скорости!</p>
                 </div>
             </div>
         </header>
@@ -104,7 +92,7 @@
                             </div>
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{ product.get_absolute_url }}">View options</a></div>
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{ product.get_absolute_url }}">Описание</a></div>
                             </div>
                         </div>
                     </div>
@@ -115,7 +103,7 @@
         </section>
         <!-- Footer-->
         <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2021</p></div>
+            <div class="container"><p class="m-0 text-center text-white">PLAYProkat</p></div>
         </footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>

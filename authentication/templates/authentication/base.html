@@ -1,0 +1,52 @@
+{% load static %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"></script>
+    <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+    <title>PSPROKAT</title>
+  </head>
+  <body>
+
+{% load static %}
+<nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark " data-sidebarClass="navbar-dark bg-dark">
+        PLAYProkat
+    {% if request.user.is_authenticated %}
+    <ul class="nav navbar-nav ms-auto" style="margin-right: 15px">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+                Welcome, {{ request.user.username }}
+            </a>
+            <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'authentication:logout' %}">Logout</a>
+            <a class="dropdown-item" href="{% url 'authentication:change_password' %}">Change Password</a>
+            </div>
+        </li>
+    </ul>
+    {% else %}
+    <ul class="navbar-nav ms-auto" style="margin-right: 15px">
+        <li class="nav-item {% if request.resolver_match.url_name == 'login' %} active {% endif %}">
+            <a class="nav-link" href="{% url 'authentication:login' %}">Login</a>
+        </li>
+        <li class="nav-item {% if request.resolver_match.url_name == 'signup' %} active {% endif %}">
+            <a class="nav-link" href="{% url 'authentication:signup' %}">Sign Up</a>
+        </li>
+    </ul>
+    {% endif %}
+</nav>
+    <div class="container">
+          {% block content %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

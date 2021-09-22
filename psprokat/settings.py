@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mainapp',
+    'authentication',
     'cart',
     'orders',
     'crispy_forms',
@@ -90,12 +91,12 @@ WSGI_APPLICATION = 'psprokat.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'psprokat_db_s',
-        'USER': 'psprokatuser_s',
-        'PASSWORD': 'psprokat',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': os.environ.get('SQL_ENGINE','django.db.backends.postgresql_psycopg2'),
+        'NAME': os.environ.get('SQL_DB','psprokat_db_s'),
+        'USER': os.environ.get('SQL_USER','psprokatuser_s'),
+        'PASSWORD': os.environ.get('SQL_PASSWORD','psprokat'),
+        'HOST': os.environ.get('SQL_HOST','localhost'),
+        'PORT': os.environ.get('SQL_PORT','5432'),
     }
 }
 
@@ -132,6 +133,14 @@ USE_L10N = True
 
 USE_TZ = True
 
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = "psprokat.django@gmail.com"
+EMAIL_HOST_USER = "psprokat.django@gmail.com"
+EMAIL_HOST_PASSWORD = "psprokat2"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
