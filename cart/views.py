@@ -22,7 +22,7 @@ def cart_add(request, slug):
                      quantity=cd['quantity'],
                      update_quantity=cd['update'])
     else:
-        return HttpResponseRedirect('/login/')
+        return redirect('authentication:login')
     return redirect('cart:cart_detail')
 
 

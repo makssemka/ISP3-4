@@ -104,7 +104,7 @@ def reset_password(request):
         if not user.exists():
             messages.error(request, "No users registered with this email")
             logger.warning(f"There was no user for {email}")
-            render(request, 'authentication/reset_password.html', context)
+            return render(request, 'authentication/reset_password.html', context)
 
         email_content = {
             "user": user[0],

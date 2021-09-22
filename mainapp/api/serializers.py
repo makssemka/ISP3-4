@@ -19,7 +19,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = 'all'
+        fields = '__all__'
 
 
 #class PSSerializer(BaseProductSerializer, serializers.ModelSerializer):
