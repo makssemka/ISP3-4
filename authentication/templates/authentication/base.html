@@ -18,7 +18,9 @@
 
 {% load static %}
 <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark " data-sidebarClass="navbar-dark bg-dark">
+       <a class="navbar-brand" href="{% url 'mainapp:base' %}" style="margin-left: 15px">
         PLAYProkat
+    </a>
     {% if request.user.is_authenticated %}
     <ul class="nav navbar-nav ms-auto" style="margin-right: 15px">
         <li class="nav-item dropdown">
